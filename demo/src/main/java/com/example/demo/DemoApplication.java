@@ -1,11 +1,16 @@
 package com.example.demo;
 
+import javax.sql.DataSource;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +31,11 @@ public class DemoApplication extends ResourceServerConfigurerAdapter {
 	
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
+	}
+	
+	@Bean
+	public TokenStore jdbcTotkenStore(DataSource dataSource){
+		return new JdbcTokenStore(dataSource);
 	}
 }
 
